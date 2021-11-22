@@ -17,13 +17,15 @@ RUN pip install "dvc[s3]"
 RUN pip install -r requirements_inference.txt
 
 # initialise dvc
-RUN dvc init --no-scm
+RUN dvc init -f --no-scm
 # configuring remote server in dvc
-RUN dvc remote add -d model-store s3://models-dvc/trained_models/
+RUN dvc remote add -d model-store s3://uplusmodels-dvc/trained_models/
 
 RUN cat .dvc/config
 # pulling the trained model
-RUN dvc pull dvcfiles/trained_model.dvc
+# 오류발생시 아래에의 코드를 사용
+# RUN dvc pull dvcfiles/trained_model.dvc; exit 0 
+RUN dvc pull dvcfiles/trained_model.dvc; exit 0
 
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
